@@ -1,8 +1,11 @@
 # .env 파일 로드 (파일이 있을 경우에만)
 ifneq (,$(wildcard .env))
   include .env
-  export
 endif
+
+# envsubst는 환경변수에서 값을 읽으므로, .env 유무와 무관하게
+# 모든 변수를 recipe 환경으로 export (기본값 포함)
+export
 
 # 기본값
 NAMESPACE         ?= fde-dataops
