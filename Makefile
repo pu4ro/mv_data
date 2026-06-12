@@ -14,13 +14,14 @@ NODE_HOSTNAME     ?= k3d-test-server-0
 PVC_NAME          ?= vllm-cache
 STORAGE_SIZE      ?= 80Gi
 ACCESS_MODE       ?= ReadWriteOnce
+STORAGE_CLASS     ?=
 TARGET_DIR        ?= /data
 MOUNT_PATH        ?= /data
 
 # envsubst로 치환할 변수 목록
 ENVSUBST_VARS = $${NAMESPACE} $${DEPLOYMENT_NAME} $${APP_LABEL} $${IMAGE} \
                 $${REPLICAS} $${NODE_HOSTNAME} $${PVC_NAME} $${STORAGE_SIZE} \
-                $${ACCESS_MODE} $${TARGET_DIR} $${MOUNT_PATH}
+                $${ACCESS_MODE} $${STORAGE_CLASS} $${TARGET_DIR} $${MOUNT_PATH}
 
 .PHONY: help deploy apply-pvc apply-deployment copy status logs delete delete-deployment delete-pvc
 

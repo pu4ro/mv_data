@@ -8,7 +8,7 @@ Kubernetes PVC에 데이터를 복사하기 위한 busybox 임시 Pod 배포 및
 |------|------|
 | `deployment.yaml` | busybox Pod Deployment 템플릿 |
 | `pvc.yaml` | PersistentVolumeClaim 템플릿 |
-| `copy-to-data.sh` | Pod 내 `/data`로 파일 복사 스크립트 |
+| `copy-to-data.sh` | Pod 내 `/data`로 파일 복사 스크립트 (tar 스트리밍) |
 | `Makefile` | 배포/복사/관리 자동화 |
 | `.env.example` | 환경변수 설정 예시 |
 
@@ -95,3 +95,8 @@ make deploy NAMESPACE=my-ns STORAGE_SIZE=200Gi
 
 - `kubectl` (클러스터 접근 설정 완료)
 - `envsubst` (`gettext` 패키지에 포함)
+- `tar` (파일 복사에 사용 — 대부분 기본 설치됨)
+- `pv` (선택 — 설치돼 있으면 복사 진행률/ETA 표시, 없으면 자동 생략)
+
+> 대용량 모델 파일 복사 시 `kubectl cp`의 메모리/타임아웃 문제를 피하기 위해
+> `tar | kubectl exec`로 스트리밍하여 전송합니다.
